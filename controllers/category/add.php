@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-
+requireAuth();
+csrfValidate();
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $fields = categoryFields($_POST);
   $validateErrors = categoryValidate($fields);

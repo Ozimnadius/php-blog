@@ -49,6 +49,18 @@ return (function(){
 		[
 			'test' => '/^contacts\/?$/',
 			'controller' => 'contacts'
-		]
+		],
+    [
+      'test' => '/^login\/?$/',
+      'controller' => 'auth/login'
+    ],
+    [
+      'test' => '/^register\/?$/',
+      'controller' => 'auth/register'
+    ],
+    [
+      'test' => '/^logout\/?$/',
+      'controller' => 'auth/logout'
+    ],
 	];
 })();

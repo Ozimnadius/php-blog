@@ -2,6 +2,7 @@
       method="post"
       novalidate
 >
+  <?= csrfField() ?>
   <div class="row">
     <?= $fieldsContent ?>
 

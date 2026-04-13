@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-
+requireAuth();
+csrfValidate();
 $id = (int)URL_PARAMS['id'];
 $category = getCategoryById($id);
 

@@ -1,5 +1,7 @@
 <?php
 declare(strict_types=1);
+requireAuth();
+csrfValidate();
 $categories = getAllCategories();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

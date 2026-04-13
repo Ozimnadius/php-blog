@@ -48,6 +48,20 @@
         >Contacts
         </a>
       </li>
+      <?php if (isset($_SESSION['user_id'])): ?>
+        <li class="nav-item">
+          <span class="nav-link">
+            <?= htmlspecialchars($_SESSION['email']) ?>
+          </span>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?= BASE_URL ?>logout">Выйти</a>
+        </li>
+      <?php else: ?>
+        <li class="nav-item">
+          <a class="nav-link" href="<?= BASE_URL ?>login">Войти</a>
+        </li>
+      <?php endif; ?>
     </ul>
   </div>
 </nav>

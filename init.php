@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 const HOST = 'http://localhost';
 const BASE_URL = '/';
 
@@ -13,3 +13,4 @@ include_once('core/system.php');
 
 include_once('model/articles.php');
 include_once('model/categories.php');
+include_once('model/users.php');
