@@ -55,7 +55,10 @@
           </span>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?= BASE_URL ?>logout">Выйти</a>
+          <form method="POST" action="<?= BASE_URL ?>logout" style="display:inline">
+            <?= csrfField() ?>
+            <button type="submit" class="nav-link btn btn-link">Выйти</button>
+          </form>
         </li>
       <?php else: ?>
         <li class="nav-item">

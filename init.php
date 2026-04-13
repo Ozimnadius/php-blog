@@ -14,3 +14,8 @@ include_once('core/system.php');
 include_once('model/articles.php');
 include_once('model/categories.php');
 include_once('model/users.php');
+
+// Автологин через remember-токен на любой странице
+if (!isset($_SESSION['user_id'])) {
+  loginByRememberToken();
+}

@@ -49,7 +49,11 @@ function make404Response(string $title = 'Ошибка 404'): array
 function requireAuth(): void
 {
   if (!isset($_SESSION['user_id'])) {
-    // Запоминаем куда хотел попасть
+    // Пробуем автологин через remember-токен
+    if (loginByRememberToken()) {
+      return; // Залогинились через куку — продолжаем
+    }
+
     $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
     header('Location: ' . BASE_URL . 'login');
     exit();
@@ -70,7 +74,7 @@ function csrfValidate(): void
     return;
   }
 
-  $tokenFromForm    = $_POST['csrf_token'] ?? '';
+  $tokenFromForm = $_POST['csrf_token'] ?? '';
   $tokenFromSession = $_SESSION['csrf_token'] ?? '';
 
   if (empty($tokenFromForm) || !hash_equals($tokenFromSession, $tokenFromForm)) {
@@ -83,4 +87,49 @@ function csrfField(): string
 {
   return '<input type="hidden" name="csrf_token" value="'
     . csrfToken() . '">';
+}
+
+function setRememberMeCookie(int $userId): void
+{
+  $token = bin2hex(random_bytes(32)); // Случайный токен
+  $hash = hash('sha256', $token);   // Хешируем для БД
+  $expires = time() + 86400 * 30;      // 30 дней
+
+  // Сохраняем хеш в БД
+  saveRememberToken(
+    $userId,
+    $hash,
+    date('Y-m-d H:i:s', $expires)
+  );
+
+  // Отправляем сам токен в куку
+  setcookie('remember_token', $token, [
+    'expires' => $expires,
+    'path' => '/',
+    'httponly' => true,  // JS не может прочитать — защита от XSS
+    'samesite' => 'Lax', // Защита от CSRF
+  ]);
+}
+
+function loginByRememberToken(): bool
+{
+  $token = $_COOKIE['remember_token'] ?? null;
+  if (!$token) return false;
+
+  $hash = hash('sha256', $token);
+  $user = getUserByRememberToken($hash);
+
+  if (!$user) return false;
+
+  // Удаляем старый токен — выдаём новый
+  // Это называется ротация токена
+  deleteRememberToken($hash);
+  setRememberMeCookie($user['id']);
+
+  // Логиним
+  session_regenerate_id(true);
+  $_SESSION['user_id'] = $user['id'];
+  $_SESSION['email'] = $user['email'];
+
+  return true;
 }

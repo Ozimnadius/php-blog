@@ -2,7 +2,7 @@
 declare(strict_types=1);
 csrfValidate();
 // Если уже залогинен — на главную
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION['user_id']) || loginByRememberToken()) {
   header('Location: ' . BASE_URL);
   exit();
 }
@@ -25,6 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_regenerate_id(true);
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['email']   = $user['email'];
+
+    // Запомнить меня
+    if (!empty($_POST['remember'])) {
+      setRememberMeCookie((int)$user['id']);
+    }
 
     // Берём сохранённый адрес или идём на главную
     $redirect = $_SESSION['redirect_after_login'] ?? BASE_URL;

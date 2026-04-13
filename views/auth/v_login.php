@@ -16,7 +16,9 @@
   <label>Пароль:
     <input type="password" name="password">
   </label>
-
+  <label>
+    <input type="checkbox" name="remember"> Запомнить меня на 30 дней
+  </label>
   <button type="submit">Войти</button>
 </form>
 
