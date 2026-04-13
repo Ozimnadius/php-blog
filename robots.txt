@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /lesson7/hw/index.php
+Disallow: /lesson7/hw/*?
