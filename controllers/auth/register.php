@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     session_regenerate_id(true);
     $_SESSION['user_id'] = $id;
     $_SESSION['email']   = $fields['email'];
+    $_SESSION['role']    = 'reader';
 
     header('Location: ' . BASE_URL);
     exit();

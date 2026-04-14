@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
-requireAuth();
+
 csrfValidate();
+requireRole('admin');
+
 $categories = getAllCategories();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

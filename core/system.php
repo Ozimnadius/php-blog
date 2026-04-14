@@ -60,6 +60,16 @@ function requireAuth(): void
   }
 }
 
+function requireRole(string $role): void
+{
+  requireAuth(); // Сначала проверяем что залогинен
+
+  if ($_SESSION['role'] !== $role) {
+    http_response_code(403);
+    die('Доступ запрещён');
+  }
+}
+
 function csrfToken(): string
 {
   if (empty($_SESSION['csrf_token'])) {
@@ -130,6 +140,7 @@ function loginByRememberToken(): bool
   session_regenerate_id(true);
   $_SESSION['user_id'] = $user['id'];
   $_SESSION['email'] = $user['email'];
+  $_SESSION['role']    = $user['role'];
 
   return true;
 }

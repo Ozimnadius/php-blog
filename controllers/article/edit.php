@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
-requireAuth();
+
 csrfValidate();
+requireRole('admin');
+
 $id = (int)URL_PARAMS['id'];
 $article = getArticleById($id);
 $categories = getAllCategories();

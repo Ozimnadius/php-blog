@@ -2,9 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="description" content="Учебный PHP-проект: категории и статьи, CRUD-операции и маршрутизация URL.">
+  <meta name="description"
+        content="Учебный PHP-проект: категории и статьи, CRUD-операции и маршрутизация URL."
+  >
   <title><?= $title ?></title>
-  <link rel="canonical" href="<?=$canonical?>">
+  <link rel="canonical"
+        href="<?= $canonical ?>"
+  >
   <link rel="stylesheet"
         href="<?= BASE_URL ?>assets/css/bootstrap.min.css"
   >
@@ -26,25 +30,27 @@
     <ul class="nav">
       <li class="nav-item">
         <a class="nav-link"
-           href="<?=BASE_URL?>"
+           href="<?= BASE_URL ?>"
         >Home
         </a>
       </li>
+      <?php if (($_SESSION['role'] ?? '') === 'admin'): ?>
+        <li class="nav-item">
+          <a class="nav-link"
+             href="<?= BASE_URL ?>category/add"
+          >Add category
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"
+             href="<?= BASE_URL ?>article/add"
+          >Add article
+          </a>
+        </li>
+      <?php endif; ?>
       <li class="nav-item">
         <a class="nav-link"
-           href="<?=BASE_URL?>category/add"
-        >Add category
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"
-           href="<?=BASE_URL?>article/add"
-        >Add article
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link"
-           href="<?=BASE_URL?>contacts"
+           href="<?= BASE_URL ?>contacts"
         >Contacts
         </a>
       </li>
@@ -55,14 +61,23 @@
           </span>
         </li>
         <li class="nav-item">
-          <form method="POST" action="<?= BASE_URL ?>logout" style="display:inline">
+          <form method="POST"
+                action="<?= BASE_URL ?>logout"
+                style="display:inline"
+          >
             <?= csrfField() ?>
-            <button type="submit" class="nav-link btn btn-link">Выйти</button>
+            <button type="submit"
+                    class="nav-link btn btn-link"
+            >Выйти
+            </button>
           </form>
         </li>
       <?php else: ?>
         <li class="nav-item">
-          <a class="nav-link" href="<?= BASE_URL ?>login">Войти</a>
+          <a class="nav-link"
+             href="<?= BASE_URL ?>login"
+          >Войти
+          </a>
         </li>
       <?php endif; ?>
     </ul>
